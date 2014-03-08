@@ -25,8 +25,7 @@ final class ValidationErrorException extends \RuntimeException
     public function __construct(array $error_lists = [])
     {
         parent::__construct('Validation error Occurred. ');
-        
-        $this->error_types = $error_lists;
+        $this->setErrorLists($error_lists);
     }
     
     // ---------------------------------------------------------------------------------------------
@@ -40,5 +39,18 @@ final class ValidationErrorException extends \RuntimeException
     public function getErrorLists()
     {
         return $this->error_lists;
+    }
+    
+    // ---------------------------------------------------------------------------------------------
+    // private member methods
+    // ---------------------------------------------------------------------------------------------
+    /**
+     * 発生したバリデーションエラー情報を保持する配列を設定します。
+     * 
+     * @param array $list 発生したバリデーションエラー情報を保持する配列
+     */
+    private function setErrorLists(array $list)
+    {
+        $this->error_lists = $list;
     }
 }
