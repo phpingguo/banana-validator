@@ -41,7 +41,7 @@ trait TraitCommonValidator
     {
         $error_result = [];
         
-        if (is_null($value) || Arrays::isEmpty($value) || 0 === strlen($value)) {
+        if (is_null($value) || is_scalar($value) === false || 0 === strlen($value)) {
             if ($options->isNullable()) {
                 return false;
             }
