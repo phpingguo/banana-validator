@@ -1,18 +1,20 @@
 <?php
 namespace Phpingguo\BananaValidator\Tests\Number;
 
+use Phpingguo\BananaValidator\Enums\ValidationError;
 use Phpingguo\BananaValidator\Number\UnsignedInt;
 use Phpingguo\BananaValidator\Options;
+use Phpingguo\BananaValidator\ValidationErrorException;
 
 class ValidatorUIntTest extends \PHPUnit_Framework_TestCase
 {
     public function testInitOptions()
     {
         return function ($option_list) {
-            $options	= Options::getInstance(true);
+            $options = Options::getInstance(true);
             
             foreach ($option_list as $key => $value) {
-                $options	= is_numeric($key) ? $options->$value() : $options->$key($value);
+                $options = is_numeric($key) ? $options->$value() : $options->$key($value);
             }
             
             return $options;
@@ -26,25 +28,25 @@ class ValidatorUIntTest extends \PHPUnit_Framework_TestCase
             [ 100, true, [], null ],
             [ PHP_INT_MAX - 1, true, [], null ],
             [ PHP_INT_MAX, true, [], null ],
-            [ PHP_INT_MAX + 1, false, [], 'ValidationErrorException' ],
-            [ PHP_INT_MAX + 10, false, [], 'ValidationErrorException' ],
-            [ -1, false, [], 'ValidationErrorException' ],
-            [ -100, false, [], 'ValidationErrorException' ],
-            [ ~PHP_INT_MAX + 1, false, [], 'ValidationErrorException' ],
-            [ ~PHP_INT_MAX, false, [], 'ValidationErrorException' ],
-            [ ~PHP_INT_MAX - 1, false, [], 'ValidationErrorException' ],
-            [ ~PHP_INT_MAX - 10, false, [], 'ValidationErrorException' ],
-            [ -100, false, [ 'min' => -50, 'max' => 50 ], 'ValidationErrorException' ],
-            [ -51, false, [ 'min' => -50, 'max' => 50 ], 'ValidationErrorException' ],
-            [ -50, false, [ 'min' => -50, 'max' => 50 ], 'ValidationErrorException' ],
-            [ -49, false, [ 'min' => -50, 'max' => 50 ], 'ValidationErrorException' ],
-            [ -1, false, [ 'min' => -50, 'max' => 50 ], 'ValidationErrorException' ],
+            [ PHP_INT_MAX + 1, false, [], [ ValidationError::FORMAT, ValidationError::MAX ] ],
+            [ PHP_INT_MAX + 10, false, [], [ ValidationError::FORMAT, ValidationError::MAX ] ],
+            [ -1, false, [], [ ValidationError::FORMAT ] ],
+            [ -100, false, [], [ ValidationError::FORMAT ] ],
+            [ ~PHP_INT_MAX + 1, false, [], [ ValidationError::FORMAT ] ],
+            [ ~PHP_INT_MAX, false, [], [ ValidationError::FORMAT ] ],
+            [ ~PHP_INT_MAX - 1, false, [], [ ValidationError::FORMAT, ValidationError::MIN ] ],
+            [ ~PHP_INT_MAX - 10, false, [], [ ValidationError::FORMAT, ValidationError::MIN ] ],
+            [ -100, false, [ 'min' => -50, 'max' => 50 ], [ ValidationError::FORMAT, ValidationError::MIN ] ],
+            [ -51, false, [ 'min' => -50, 'max' => 50 ], [ ValidationError::FORMAT, ValidationError::MIN ] ],
+            [ -50, false, [ 'min' => -50, 'max' => 50 ], [ ValidationError::FORMAT ] ],
+            [ -49, false, [ 'min' => -50, 'max' => 50 ], [ ValidationError::FORMAT ] ],
+            [ -1, false, [ 'min' => -50, 'max' => 50 ], [ ValidationError::FORMAT ] ],
             [ 0, true, [ 'min' => -50, 'max' => 50 ], null ],
             [ 1, true, [ 'min' => -50, 'max' => 50 ], null ],
             [ 49, true, [ 'min' => -50, 'max' => 50 ], null ],
             [ 50, true, [ 'min' => -50, 'max' => 50 ], null ],
-            [ 51, false, [ 'min' => -50, 'max' => 50 ], 'ValidationErrorException' ],
-            [ 100, false, [ 'min' => -50, 'max' => 50 ], 'ValidationErrorException' ],
+            [ 51, false, [ 'min' => -50, 'max' => 50 ], [ ValidationError::MAX ] ],
+            [ 100, false, [ 'min' => -50, 'max' => 50 ], [ ValidationError::MAX ] ],
             [ 0, true, [ 'nullable' ], null ],
             [ 0.0, true, [ 'nullable' ], null ],
             [ '0', true, [ 'nullable' ], null ],
@@ -55,10 +57,10 @@ class ValidatorUIntTest extends \PHPUnit_Framework_TestCase
             [ 0, true, [], null ],
             [ 0.0, true, [], null ],
             [ '0', true, [], null ],
-            [ null, false, [], 'ValidationErrorException' ],
-            [ '', false, [], 'ValidationErrorException' ],
-            [ false, false, [], 'ValidationErrorException' ],
-            [ [], false, [], 'ValidationErrorException' ],
+            [ null, false, [], [ ValidationError::INVALID ] ],
+            [ '', false, [], [ ValidationError::INVALID ] ],
+            [ false, false, [], [ ValidationError::INVALID ] ],
+            [ [], false, [], [ ValidationError::INVALID ] ],
         ];
     }
     
@@ -68,8 +70,10 @@ class ValidatorUIntTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidate($value, $expected, $options, $exception, $init)
     {
-        isset($exception) && $this->setExpectedException("Phpingguo\\BananaValidator\\" . $exception);
-        
-        $this->assertSame($expected, (new UnsignedInt())->validate($value, $init($options)));
+        try {
+            $this->assertSame($expected, (new UnsignedInt())->validate($value, $init($options)));
+        } catch (ValidationErrorException $e) {
+            $this->assertSame($exception, $e->getErrorLists());
+        }
     }
 }

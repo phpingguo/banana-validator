@@ -19,6 +19,7 @@ final class DateTime extends BaseDateTime
     {
         parent::__construct('^[2-9]([0-9]){1,3}[\-\/]*([0][1-9]|[1][0-2])[\-\/]*([0-2][1-9]|[3][0-1])[ ]*([0-1][0-9]|[2][0-3])(:*[0-5][0-9]){1,2}$');
         
+        $this->setDigitNumber(14);
         $this->setMinValue(20000101000000);
         $this->setMaxValue(99991231235959);
     }

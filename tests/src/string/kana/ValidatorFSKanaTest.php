@@ -1,18 +1,20 @@
 <?php
 namespace Phpingguo\BananaValidator\Tests\String\Kana;
 
+use Phpingguo\BananaValidator\Enums\ValidationError;
 use Phpingguo\BananaValidator\Options;
 use Phpingguo\BananaValidator\String\Kana\FullSizeKana;
+use Phpingguo\BananaValidator\ValidationErrorException;
 
 class ValidatorFSKanaTest extends \PHPUnit_Framework_TestCase
 {
     public function testInitOptions()
     {
         return function ($option_list) {
-            $options	= Options::getInstance(true);
+            $options = Options::getInstance(true);
             
             foreach ($option_list as $key => $value) {
-                $options	= is_numeric($key) ? $options->$value() : $options->$key($value);
+                $options = is_numeric($key) ? $options->$value() : $options->$key($value);
             }
             
             return $options;
@@ -22,79 +24,79 @@ class ValidatorFSKanaTest extends \PHPUnit_Framework_TestCase
     public function providerValidate()
     {
         return [
-            [ 'a', false, [], 'ValidationErrorException' ],
-            [ 'z', false, [], 'ValidationErrorException' ],
-            [ 'A', false, [], 'ValidationErrorException' ],
-            [ 'Z', false, [], 'ValidationErrorException' ],
-            [ 'abc', false, [], 'ValidationErrorException' ],
-            [ 'xyz', false, [], 'ValidationErrorException' ],
-            [ 'ABC', false, [], 'ValidationErrorException' ],
-            [ 'XYZ', false, [], 'ValidationErrorException' ],
-            [ '!"#$%&\'()=~|-^\\[]{}/?_*:;+`@,.<>', false, [], 'ValidationErrorException' ],
-            [ '1a', false, [], 'ValidationErrorException' ],
-            [ 'a1', false, [], 'ValidationErrorException' ],
-            [ '1Z', false, [], 'ValidationErrorException' ],
-            [ 'Z1', false, [], 'ValidationErrorException' ],
-            [ 'ひらがな', false, [], 'ValidationErrorException' ],
-            [ 'ひらがな1', false, [], 'ValidationErrorException' ],
-            [ '1ひらがな', false, [], 'ValidationErrorException' ],
-            [ '漢字', false, [], 'ValidationErrorException' ],
-            [ '漢字1', false, [], 'ValidationErrorException' ],
-            [ '1漢字', false, [], 'ValidationErrorException' ],
-            [ 'ｶﾀｶﾅ', false, [], 'ValidationErrorException' ],
-            [ 'ｶﾀｶﾅ1', false, [], 'ValidationErrorException' ],
-            [ '1ｶﾀｶﾅ', false, [], 'ValidationErrorException' ],
+            [ 'a', false, [], [ ValidationError::FORMAT ] ],
+            [ 'z', false, [], [ ValidationError::FORMAT ] ],
+            [ 'A', false, [], [ ValidationError::FORMAT ] ],
+            [ 'Z', false, [], [ ValidationError::FORMAT ] ],
+            [ 'abc', false, [], [ ValidationError::FORMAT ] ],
+            [ 'xyz', false, [], [ ValidationError::FORMAT ] ],
+            [ 'ABC', false, [], [ ValidationError::FORMAT ] ],
+            [ 'XYZ', false, [], [ ValidationError::FORMAT ] ],
+            [ '!"#$%&\'()=~|-^\\[]{}/?_*:;+`@,.<>', false, [], [ ValidationError::FORMAT ] ],
+            [ '1a', false, [], [ ValidationError::FORMAT ] ],
+            [ 'a1', false, [], [ ValidationError::FORMAT ] ],
+            [ '1Z', false, [], [ ValidationError::FORMAT ] ],
+            [ 'Z1', false, [], [ ValidationError::FORMAT ] ],
+            [ 'ひらがな', false, [], [ ValidationError::FORMAT ] ],
+            [ 'ひらがな1', false, [], [ ValidationError::FORMAT ] ],
+            [ '1ひらがな', false, [], [ ValidationError::FORMAT ] ],
+            [ '漢字', false, [], [ ValidationError::FORMAT ] ],
+            [ '漢字1', false, [], [ ValidationError::FORMAT ] ],
+            [ '1漢字', false, [], [ ValidationError::FORMAT ] ],
+            [ 'ｶﾀｶﾅ', false, [], [ ValidationError::FORMAT ] ],
+            [ 'ｶﾀｶﾅ1', false, [], [ ValidationError::FORMAT ] ],
+            [ '1ｶﾀｶﾅ', false, [], [ ValidationError::FORMAT ] ],
             [ 'カタカナ', true, [], null ],
-            [ 'カタカナ1', false, [], 'ValidationErrorException' ],
-            [ '1カタカナ', false, [], 'ValidationErrorException' ],
-            [ 'abcひらがな', false, [], 'ValidationErrorException' ],
-            [ 'abc漢字', false, [], 'ValidationErrorException' ],
-            [ 'abcｶﾀｶﾅ', false, [], 'ValidationErrorException' ],
-            [ 'abcカタカナ', false, [], 'ValidationErrorException' ],
-            [ 'ひらがなabc', false, [], 'ValidationErrorException' ],
-            [ 'ひらがな漢字', false, [], 'ValidationErrorException' ],
-            [ 'ひらがなｶﾀｶﾅ', false, [], 'ValidationErrorException' ],
-            [ 'ひらがなカタカナ', false, [], 'ValidationErrorException' ],
-            [ '漢字abc', false, [], 'ValidationErrorException' ],
-            [ '漢字ひらがな', false, [], 'ValidationErrorException' ],
-            [ '漢字ｶﾀｶﾅ', false, [], 'ValidationErrorException' ],
-            [ '漢字カタカナ', false, [], 'ValidationErrorException' ],
-            [ 'カタカナabc', false, [], 'ValidationErrorException' ],
-            [ 'カタカナひらがな', false, [], 'ValidationErrorException' ],
-            [ 'カタカナ漢字', false, [], 'ValidationErrorException' ],
-            [ 'カタカナｶﾀｶﾅ', false, [], 'ValidationErrorException' ],
-            [ 'abc', false, [ 'whitespace' ], 'ValidationErrorException' ],
-            [ 'a b c', false, [ 'whitespace' ], 'ValidationErrorException' ],
-            [ 'a　b　c', false, [ 'whitespace' ], 'ValidationErrorException' ],
-            [ 'ABC', false, [ 'whitespace' ], 'ValidationErrorException' ],
-            [ 'A B C', false, [ 'whitespace' ], 'ValidationErrorException' ],
-            [ 'A　B　C', false, [ 'whitespace' ], 'ValidationErrorException' ],
-            [ 'ひらがな', false, [ 'whitespace' ], 'ValidationErrorException' ],
-            [ 'ひ ら が な', false, [ 'whitespace' ], 'ValidationErrorException' ],
-            [ 'ひ　ら　が　な', false, [ 'whitespace' ], 'ValidationErrorException' ],
-            [ '漢字', false, [ 'whitespace' ], 'ValidationErrorException' ],
-            [ '漢 字', false, [ 'whitespace' ], 'ValidationErrorException' ],
-            [ '漢　字', false, [ 'whitespace' ], 'ValidationErrorException' ],
-            [ 'ｶﾀｶﾅ', false, [ 'whitespace' ], 'ValidationErrorException' ],
-            [ 'ｶ ﾀ ｶ ﾅ', false, [ 'whitespace' ], 'ValidationErrorException' ],
-            [ 'ｶ　ﾀ　ｶ　ﾅ', false, [ 'whitespace' ], 'ValidationErrorException' ],
+            [ 'カタカナ1', false, [], [ ValidationError::FORMAT ] ],
+            [ '1カタカナ', false, [], [ ValidationError::FORMAT ] ],
+            [ 'abcひらがな', false, [], [ ValidationError::FORMAT ] ],
+            [ 'abc漢字', false, [], [ ValidationError::FORMAT ] ],
+            [ 'abcｶﾀｶﾅ', false, [], [ ValidationError::FORMAT ] ],
+            [ 'abcカタカナ', false, [], [ ValidationError::FORMAT ] ],
+            [ 'ひらがなabc', false, [], [ ValidationError::FORMAT ] ],
+            [ 'ひらがな漢字', false, [], [ ValidationError::FORMAT ] ],
+            [ 'ひらがなｶﾀｶﾅ', false, [], [ ValidationError::FORMAT ] ],
+            [ 'ひらがなカタカナ', false, [], [ ValidationError::FORMAT ] ],
+            [ '漢字abc', false, [], [ ValidationError::FORMAT ] ],
+            [ '漢字ひらがな', false, [], [ ValidationError::FORMAT ] ],
+            [ '漢字ｶﾀｶﾅ', false, [], [ ValidationError::FORMAT ] ],
+            [ '漢字カタカナ', false, [], [ ValidationError::FORMAT ] ],
+            [ 'カタカナabc', false, [], [ ValidationError::FORMAT ] ],
+            [ 'カタカナひらがな', false, [], [ ValidationError::FORMAT ] ],
+            [ 'カタカナ漢字', false, [], [ ValidationError::FORMAT ] ],
+            [ 'カタカナｶﾀｶﾅ', false, [], [ ValidationError::FORMAT ] ],
+            [ 'abc', false, [ 'whitespace' ], [ ValidationError::FORMAT ] ],
+            [ 'a b c', false, [ 'whitespace' ], [ ValidationError::FORMAT ] ],
+            [ 'a　b　c', false, [ 'whitespace' ], [ ValidationError::FORMAT ] ],
+            [ 'ABC', false, [ 'whitespace' ], [ ValidationError::FORMAT ] ],
+            [ 'A B C', false, [ 'whitespace' ], [ ValidationError::FORMAT ] ],
+            [ 'A　B　C', false, [ 'whitespace' ], [ ValidationError::FORMAT ] ],
+            [ 'ひらがな', false, [ 'whitespace' ], [ ValidationError::FORMAT ] ],
+            [ 'ひ ら が な', false, [ 'whitespace' ], [ ValidationError::FORMAT ] ],
+            [ 'ひ　ら　が　な', false, [ 'whitespace' ], [ ValidationError::FORMAT ] ],
+            [ '漢字', false, [ 'whitespace' ], [ ValidationError::FORMAT ] ],
+            [ '漢 字', false, [ 'whitespace' ], [ ValidationError::FORMAT ] ],
+            [ '漢　字', false, [ 'whitespace' ], [ ValidationError::FORMAT ] ],
+            [ 'ｶﾀｶﾅ', false, [ 'whitespace' ], [ ValidationError::FORMAT ] ],
+            [ 'ｶ ﾀ ｶ ﾅ', false, [ 'whitespace' ], [ ValidationError::FORMAT ] ],
+            [ 'ｶ　ﾀ　ｶ　ﾅ', false, [ 'whitespace' ], [ ValidationError::FORMAT ] ],
             [ 'カタカナ', true, [ 'whitespace' ], null ],
             [ 'カ タ カ ナ', true, [ 'whitespace' ], null ],
-            [ 'カ　タ　カ　ナ', false, [ 'whitespace' ], 'ValidationErrorException' ],
-            [ 0, false, [ 'nullable' ], 'ValidationErrorException' ],
-            [ 0.0, false, [ 'nullable' ], 'ValidationErrorException' ],
-            [ '0', false, [ 'nullable' ], 'ValidationErrorException' ],
+            [ 'カ　タ　カ　ナ', false, [ 'whitespace' ], [ ValidationError::FORMAT ] ],
+            [ 0, false, [ 'nullable' ], [ ValidationError::FORMAT ] ],
+            [ 0.0, false, [ 'nullable' ], [ ValidationError::FORMAT ] ],
+            [ '0', false, [ 'nullable' ], [ ValidationError::FORMAT ] ],
             [ null, false, [ 'nullable' ], null ],
             [ '', false, [ 'nullable' ], null ],
             [ false, false, [ 'nullable' ], null ],
             [ [], false, [ 'nullable' ], null ],
-            [ 0, false, [], 'ValidationErrorException' ],
-            [ 0.0, false, [], 'ValidationErrorException' ],
-            [ '0', false, [], 'ValidationErrorException' ],
-            [ null, false, [], 'ValidationErrorException' ],
-            [ '', false, [], 'ValidationErrorException' ],
-            [ false, false, [], 'ValidationErrorException' ],
-            [ [], false, [], 'ValidationErrorException' ],
+            [ 0, false, [], [ ValidationError::FORMAT ] ],
+            [ 0.0, false, [], [ ValidationError::FORMAT ] ],
+            [ '0', false, [], [ ValidationError::FORMAT ] ],
+            [ null, false, [], [ ValidationError::INVALID ] ],
+            [ '', false, [], [ ValidationError::INVALID ] ],
+            [ false, false, [], [ ValidationError::INVALID ] ],
+            [ [], false, [], [ ValidationError::INVALID ] ],
         ];
     }
     
@@ -104,8 +106,10 @@ class ValidatorFSKanaTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidate($value, $expected, $options, $exception, $init)
     {
-        isset($exception) && $this->setExpectedException("Phpingguo\\BananaValidator\\" . $exception);
-    
-        $this->assertSame($expected, (new FullSizeKana())->validate($value, $init($options)));
+        try {
+            $this->assertSame($expected, (new FullSizeKana())->validate($value, $init($options)));
+        } catch (ValidationErrorException $e) {
+            $this->assertSame($exception, $e->getErrorLists());
+        }
     }
 }

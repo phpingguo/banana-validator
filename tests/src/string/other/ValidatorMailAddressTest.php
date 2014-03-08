@@ -1,18 +1,20 @@
 <?php
 namespace Phpingguo\BananaValidator\Tests\String\Latin;
 
+use Phpingguo\BananaValidator\Enums\ValidationError;
 use Phpingguo\BananaValidator\Options;
 use Phpingguo\BananaValidator\String\Other\MailAddress;
+use Phpingguo\BananaValidator\ValidationErrorException;
 
 class ValidatorMailAddressTest extends \PHPUnit_Framework_TestCase
 {
     public function testInitOptions()
     {
         return function ($option_list) {
-            $options	= Options::getInstance(true);
+            $options = Options::getInstance(true);
             
             foreach ($option_list as $key => $value) {
-                $options	= is_numeric($key) ? $options->$value() : $options->$key($value);
+                $options = is_numeric($key) ? $options->$value() : $options->$key($value);
             }
             
             return $options;
@@ -38,27 +40,29 @@ class ValidatorMailAddressTest extends \PHPUnit_Framework_TestCase
             [ 'abc....def@xyz.com', false, [], '\RuntimeException' ],
             [ '.ab..cd..ef.@xyz.com', false, [], '\RuntimeException' ],
             [ 'a[bcde]f@xyz.com', false, [], '\RuntimeException' ],
-            [ 'a', false, [], 'ValidationErrorException' ],
-            [ 'A', false, [], 'ValidationErrorException' ],
-            [ 'abc', false, [ 'notPreg' => '/xyz/' ], 'ValidationErrorException' ],
-            [ 'a b c', false, [ 'whitespace' ], 'ValidationErrorException' ],
+            [ 'a', false, [], [ ValidationError::FORMAT ] ],
+            [ 'A', false, [], [ ValidationError::FORMAT ] ],
+            [ 'abc', false, [ 'notPreg' => '/xyz/' ], [ ValidationError::FORMAT ] ],
+            [ 'a b c', false, [ 'whitespace' ], [ ValidationError::FORMAT ] ],
             [ '', false, [ 'nullable' ], null ],
             [ null, false, [ 'nullable' ], null ],
             [ false, false, [ 'nullable' ], null ],
             [ [], false, [ 'nullable' ], null ],
-            [ 'あいうえお', false, [], 'ValidationErrorException' ],
-            [ 'ｱｲｳｴｵ', false, [], 'ValidationErrorException' ],
-            [ 'アイウエオ', false, [], 'ValidationErrorException' ],
-            [ 'a0', false, [], 'ValidationErrorException' ],
-            [ 'abc', false, [ 'preg' => '/xyz/' ], 'ValidationErrorException' ],
-            [ 0, false, [], 'ValidationErrorException' ],
-            [ 0.0, false, [], 'ValidationErrorException' ],
-            [ '0', false, [], 'ValidationErrorException' ],
-            [ '0.0', false, [], 'ValidationErrorException' ],
-            [ null, true, [], 'ValidationErrorException' ],
-            [ '', true, [], 'ValidationErrorException' ],
-            [ false, false, [], 'ValidationErrorException' ],
-            [ [], false, [], 'ValidationErrorException' ],
+            [ 'あいうえお', false, [], [ ValidationError::FORMAT ] ],
+            [ 'ｱｲｳｴｵ', false, [], [ ValidationError::FORMAT ] ],
+            [ 'アイウエオ', false, [], [ ValidationError::FORMAT ] ],
+            [ 'a0', false, [], [ ValidationError::FORMAT ] ],
+            [ 'abc', false, [ 'preg' => '/xyz/' ], [ ValidationError::FORMAT ] ],
+            [ 0, false, [], [ ValidationError::FORMAT ] ],
+            [ 0.0, false, [], [ ValidationError::FORMAT ] ],
+            [ '0', false, [], [ ValidationError::FORMAT ] ],
+            [ '0.0', false, [], [ ValidationError::FORMAT ] ],
+            [ null, true, [], [ ValidationError::INVALID ] ],
+            [ '', true, [], [ ValidationError::INVALID ] ],
+            [ true, false, [], [ ValidationError::FORMAT ] ],
+            [ false, false, [], [ ValidationError::INVALID ] ],
+            [ [], false, [], [ ValidationError::INVALID ] ],
+            [ new \stdClass(), true, [], [ ValidationError::INVALID ] ],
         ];
     }
     
@@ -68,10 +72,12 @@ class ValidatorMailAddressTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidate($value, $expected, $options, $exception, $init)
     {
-        isset($exception) && $this->setExpectedException(
-            (strpos($exception, '\\') === 0 ? "" : "Phpingguo\\BananaValidator\\") . $exception
-        );
-    
-        $this->assertSame($expected, (new MailAddress())->validate($value, $init($options)));
+        is_string($exception) && $this->setExpectedException($exception);
+        
+        try {
+            $this->assertSame($expected, (new MailAddress())->validate($value, $init($options)));
+        } catch (ValidationErrorException $e) {
+            $this->assertSame($exception, $e->getErrorLists());
+        }
     }
 }

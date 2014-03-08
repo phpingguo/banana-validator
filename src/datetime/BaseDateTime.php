@@ -28,6 +28,7 @@ abstract class BaseDateTime implements IValidator
     private $format_string = '';
     private $min_value     = 0;
     private $max_value     = 0;
+    private $digit_number  = -1;
     
     // ---------------------------------------------------------------------------------------------
     // constructor / destructor
@@ -66,6 +67,7 @@ abstract class BaseDateTime implements IValidator
     /**
      * 検証時に許容する最小値を取得します。
      * 
+     * @final [オーバーライド禁止]
      * @return Number 検証時に許容する最小値
      */
     final protected function getMinValue()
@@ -76,6 +78,7 @@ abstract class BaseDateTime implements IValidator
     /**
      * 検証時に許容する最小値を設定します。
      * 
+     * @final [オーバーライド禁止]
      * @param Number $value 検証時に許容する最小値
      */
     final protected function setMinValue($value)
@@ -86,6 +89,7 @@ abstract class BaseDateTime implements IValidator
     /**
      * 検証時に許容する最大値を取得します。
      * 
+     * @final [オーバーライド禁止]
      * @return Number 検証時に許容する最大値
      */
     final protected function getMaxValue()
@@ -96,11 +100,34 @@ abstract class BaseDateTime implements IValidator
     /**
      * 検証時に許容する最大値を設定します。
      * 
+     * @final [オーバーライド禁止]
      * @param Number $value 検証時に許容する最大値
      */
     final protected function setMaxValue($value)
     {
         $this->max_value = $value;
+    }
+
+    /**
+     * 検証時に許容する数値の桁数を取得します。
+     * 
+     * @final [オーバーライド禁止]
+     * @return Integer 検証時に許容する数値の桁数
+     */
+    final protected function getDigitNumber()
+    {
+        return $this->digit_number;
+    }
+
+    /**
+     * 検証時に許容する数値の桁数を設定します。
+     * 
+     * @final [オーバーライド禁止]
+     * @param Integer $value 検証時に許容する数値の桁数
+     */
+    final protected function setDigitNumber($value)
+    {
+        $this->digit_number = $value;
     }
     
     /**
@@ -119,8 +146,15 @@ abstract class BaseDateTime implements IValidator
         if (Arrays::isEmpty($error_result)) {
             $this->setError($error_result, $this->checkInvalidFormat($value));
             
-            foreach ($this->checkOverLimitValues($value, $options) as $error_val) {
-                $this->setError($error_result, $error_val);
+            if ($this->getDigitNumber() === strlen($this->getDateTimeNumber($value))) {
+                $list = $this->checkOverLimitValues($value, $options);
+                
+                Arrays::eachWalk(
+                    $list,
+                    function ($error_val) use (&$error_result) {
+                        $this->setError($error_result, $error_val);
+                    }
+                );
             }
         }
         
@@ -154,7 +188,7 @@ abstract class BaseDateTime implements IValidator
      */
     private function checkOverLimitValues($value, Options $options)
     {
-        $target = $this->getDateTimeNumber($value);
+        $target = $this->getDateTimeNumber($value, true);
         $min    = $this->getLimitValue('getMinValue', $options);
         $max    = $this->getLimitValue('getMaxValue', $options);
         
@@ -177,7 +211,7 @@ abstract class BaseDateTime implements IValidator
     private function getLimitValue($method_name, Options $options)
     {
         return is_null($options->$method_name()) ? $this->$method_name() :
-            $this->getDateTimeNumber($options->$method_name());
+            $this->getDateTimeNumber($options->$method_name(), true);
     }
     
     /**
@@ -185,44 +219,122 @@ abstract class BaseDateTime implements IValidator
      * 
      * @param String $datetime 数値に変換する日時表記の文字列
      * 
-     * @return String|null 入力値が適切な値の場合は日時表記の文字列から変換した数値。不正な場合は null。
+     * @return String|null 入力値が適切な値の場合は日時表記から変換した数値文字列。不正な場合は null。
      */
-    private function getDateTimeNumber($datetime)
+    private function getDateTimeNumber($datetime, $is_number_cast = false)
     {
         $date_pattern = '(([0-9]{2,4})[-\/]*([0-9]{1,2})[-\/]*([0-9]{1,2}))*';
-        $time_pattern = '(\s*([0-9]{1,2})[:]*([0-9]{1,2})[:]*([0-9]{1,2})*)*';
+        $time_pattern = '\s?(([0-9]{1,2})[:]*([0-9]{1,2})[:]*([0-9]{1,2})*)*';
         
-        preg_match("/^{$date_pattern}{$time_pattern}$/", $datetime, $matches);
+        $exec_data = Arrays::getValue(
+            [
+                6  => [ 'method_name' => 'getTimeNumber', 'pattern' => $time_pattern ],
+                8  => [ 'method_name' => 'getDateNumber', 'pattern' => $date_pattern ],
+                14 => [ 'method_name' => 'getFullNumber', 'pattern' => "{$date_pattern}{$time_pattern}" ],
+            ],
+            $this->getDigitNumber()
+        );
         
-        $matches = $this->getFormattedList($matches);
+        $result = call_user_func([ $this, $exec_data['method_name'] ], $datetime, $exec_data['pattern']);
         
-        if (empty($matches) ||
-            (isset($matches[2], $matches[3], $matches[4]) &&
-            checkdate($matches[3], $matches[4], $matches[2]) === false)
-        ) {
-            return null;
-        }
-        
-        return floatval(implode('', $matches));
+        return ($is_number_cast === true) ? floatval($result) : $result;
     }
-    
+
     /**
-     * 整形した日時の配列を取得します。
+     * 日付の数値表記を取得します。
      * 
-     * @param Array $list 整形対象となる日時情報を格納した配列
-     * 
-     * @return Array 整形した日時の配列
+     * @param String $datetime 日付表記の文字列
+     * @param String $pattern  数値表記に変換するための正規表現文字列
+     *
+     * @return String|null 取得成功時はパラメータ $datetime の数値表記文字列。それ以外の時は null。
      */
-    private function getFormattedList(array $list)
+    private function getDateNumber($datetime, $pattern)
     {
-        $list = array_pad($list, isset($list[5]) ? 9 : 5, null);
+        return $this->getDate(
+            $this->getMatched($datetime, $pattern),
+            [ 'year' => 2, 'month' => 3, 'day' => 4 ]
+        );
+    }
+
+    /**
+     * 時刻の数値表記を取得します。
+     * 
+     * @param String $datetime 時刻表記の文字列
+     * @param String $pattern  数値表記に変換するための正規表現文字列
+     *
+     * @return String パラメータ $datetime の数値表記文字列。
+     */
+    private function getTimeNumber($datetime, $pattern)
+    {
+        return $this->getTime(
+            $this->getMatched($datetime, $pattern),
+            [ 'hour' => 2, 'minute' => 3, 'second' => 4 ]
+        );
+    }
+
+    /**
+     * 日時の数値表記を取得します。
+     * 
+     * @param String $datetime 日時表記の文字列
+     * @param String $pattern  数値表記に変換するための正規表現文字列
+     *
+     * @return String パラメータ $datetime の数値表記文字列。
+     */
+    private function getFullNumber($datetime, $pattern)
+    {
+        $matches = $this->getMatched($datetime, $pattern);
+        $date    = $this->getDate($matches, [ 'year' => 2, 'month' => 3, 'day' => 4 ]);
+        $time    = $this->getTime($matches, [ 'hour' => 6, 'minute' => 7, 'second' => 8 ]);
         
-        unset($list[0], $list[1], $list[5]);
+        return (is_null($date) === false) ? "{$date}{$time}" : null;
+    }
+
+    /**
+     * 日付・時刻・日時のいづれかの入力文字列に正規表現検索を行い、その検索結果を取得します。
+     * 
+     * @param String $datetime 日付・時刻・日時表記の文字列
+     * @param String $pattern  数値表記に変換するための正規表現文字列
+     *
+     * @return Array 正規表現検索の検索結果の配列
+     */
+    private function getMatched($datetime, $pattern)
+    {
+        preg_match("/^{$pattern}$/", $datetime, $matches);
         
-        foreach ($list as $key => $value) {
-            $list[$key] = sprintf('%02d', $value ?: 0);
-        }
+        return $matches;
+    }
+
+    /**
+     * 日付の数値表記文字列を取得します。
+     * 
+     * @param Array $matches  日付表記の文字列
+     * @param Array $indexers 取得時に使用する正規表現検索の結果配列のインデックスの値
+     *
+     * @return String|null 日付として有効な文字列の場合はその文字列。それ以外の場合は null。
+     */
+    private function getDate(array $matches, array $indexers)
+    {
+        $year  = sprintf('%04d', Arrays::getValue($matches, $indexers['year'], 0));
+        $month = sprintf('%02d', Arrays::getValue($matches, $indexers['month'], 0));
+        $day   = sprintf('%02d', Arrays::getValue($matches, $indexers['day'], 0));
         
-        return $list;
+        return checkdate($month, $day, $year) ? "{$year}{$month}{$day}" : null;
+    }
+
+    /**
+     * 時刻の数値表記文字列を取得します。
+     * 
+     * @param Array $matches  時刻表記の文字列
+     * @param Array $indexers 取得時に使用する正規表現検索の結果配列のインデックスの値
+     *
+     * @return String 時刻の数値表記の文字列
+     */
+    private function getTime(array $matches, array $indexers)
+    {
+        $hour   = sprintf('%02d', Arrays::getValue($matches, $indexers['hour'], 0));
+        $minute = sprintf('%02d', Arrays::getValue($matches, $indexers['minute'], 0));
+        $second = sprintf('%02d', Arrays::getValue($matches, $indexers['second'], 0));
+        
+        return "{$hour}{$minute}{$second}";
     }
 }
