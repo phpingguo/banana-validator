@@ -76,6 +76,7 @@ abstract class BaseInteger implements IValidator
      */
     private function doExclusiveErrorCheck($value)
     {
+        /** @var \Phpingguo\ApricotLib\Type\Int\BaseInteger $called */
         $called = 'Phpingguo\\ApricotLib\\Type\\Int\\' . String::removeNamespace(get_called_class());
         
         if ($called::getInstance()->isValue($value) === false) {

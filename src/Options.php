@@ -56,6 +56,7 @@ final class Options
      */
     public static function getInstance($force_init = false)
     {
+        /** @var Options $instance */
         $instance = AuraDIWrapper::init('validator', ValidatorSupervisor::getConfigPath())->get(__CLASS__);
         
         return ($force_init === true) ? $instance->allReset() : $instance;
