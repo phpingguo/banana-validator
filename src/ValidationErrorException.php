@@ -24,7 +24,7 @@ final class ValidationErrorException extends \RuntimeException
      */
     public function __construct(array $error_lists = [])
     {
-        parent::__construct('Validation error Occurred. ');
+        parent::__construct('Validation error Occurred.');
         $this->setErrorLists($error_lists);
     }
     
