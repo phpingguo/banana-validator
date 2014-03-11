@@ -57,7 +57,7 @@ abstract class StringFormat extends BaseString
             return ValidationError::FORMAT();
         }
         
-        $replaced	= $this->getRemovedAllowChars($value, $get_pattern_text, $allow_pattern);
+        $replaced = $this->getRemovedAllowChars($value, $get_pattern_text, $allow_pattern);
         
         if ($this->isExistControlChar($replaced) ||
             $this->isNotRegexContain($replaced, $this->getRegexString()) ||
@@ -125,11 +125,11 @@ abstract class StringFormat extends BaseString
         $allow_pattern = [];
         $deny_pattern  = [];
         
-        $add_pattern	= function ($condition, $value) use (&$allow_pattern, &$deny_pattern) {
+        $add_pattern = function ($condition, $value) use (&$allow_pattern, &$deny_pattern) {
             if ($condition === true) {
-                $allow_pattern[]	= $value;
+                $allow_pattern[] = $value;
             } else {
-                $deny_pattern[]		= $value;
+                $deny_pattern[]  = $value;
             }
         };
         
@@ -219,7 +219,7 @@ abstract class StringFormat extends BaseString
      */
     private function getRemovedHalfWidth($value)
     {
-        $result	= $this->getAllowFullSize() ? $value :
+        $result = $this->getAllowFullSize() ? $value :
             preg_replace('/\xEF(\xBD[\xA1-\xBF]|\xBE[\x80-\x9F])|[\x21-\x7E]/', '', $value);
         
         return $result;
