@@ -9,7 +9,7 @@ use Phpingguo\BananaValidator\Enums\ValidationError;
  * 
  * @author hiroki sugawara
  */
-trait TraitCommonValidator
+trait TCommonValidator
 {
     /**
      * 与えられた配列にバリデーションエラーの理由を設定します。
