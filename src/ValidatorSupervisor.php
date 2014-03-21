@@ -50,6 +50,6 @@ final class ValidatorSupervisor
      */
     public static function getEnumFullName($enum_name)
     {
-        return CString::getEnumFullName("Phpingguo\\BananaValidator\\Enums\\", $enum_name);
+        return CString::concat("Phpingguo\\BananaValidator\\Enums\\", $enum_name);
     }
 }
