@@ -6,7 +6,7 @@ use Phpingguo\ApricotLib\Common\String;
 use Phpingguo\BananaValidator\Enums\ValidationError;
 use Phpingguo\BananaValidator\IValidator;
 use Phpingguo\BananaValidator\Options;
-use Phpingguo\BananaValidator\TraitCommonValidator;
+use Phpingguo\BananaValidator\TCommonValidator;
 use Phpingguo\BananaValidator\ValidationErrorException;
 
 /**
@@ -20,7 +20,7 @@ abstract class BaseInteger implements IValidator
     // ---------------------------------------------------------------------------------------------
     // import trait
     // ---------------------------------------------------------------------------------------------
-    use TraitCommonValidator;
+    use TCommonValidator;
     
     // ---------------------------------------------------------------------------------------------
     // public member methods

@@ -8,7 +8,7 @@ use Phpingguo\ApricotLib\Type\String\Text;
 use Phpingguo\BananaValidator\Enums\ValidationError;
 use Phpingguo\BananaValidator\IValidator;
 use Phpingguo\BananaValidator\Options;
-use Phpingguo\BananaValidator\TraitCommonValidator;
+use Phpingguo\BananaValidator\TCommonValidator;
 use Phpingguo\BananaValidator\ValidationErrorException;
 
 /**
@@ -22,7 +22,7 @@ abstract class BaseString implements IValidator
     // ---------------------------------------------------------------------------------------------
     // import trait
     // ---------------------------------------------------------------------------------------------
-    use TraitCommonValidator;
+    use TCommonValidator;
     
     // ---------------------------------------------------------------------------------------------
     // private fields
