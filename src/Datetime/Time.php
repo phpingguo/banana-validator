@@ -17,7 +17,7 @@ final class Time extends BaseDateTime
      */
     public function __construct()
     {
-        parent::__construct('^([0-1][0-9]|[2][0-3])(:*[0-5][0-9]){1,2}$');
+        parent::__construct('^([0-1][0-9]|2[0-3])(:*[0-5][0-9]){1,2}$');
         
         $this->setDigitNumber(6);
         $this->setMinValue(0);
