@@ -80,7 +80,7 @@ abstract class BaseInteger implements IValidator
         $called = 'Phpingguo\\ApricotLib\\Type\\Int\\' . String::removeNamespace(get_called_class());
         
         if ($called::getInstance()->isValue($value) === false) {
-            return ValidationError::FORMAT();
+            return new ValidationError(ValidationError::FORMAT);
         }
         
         return null;
@@ -102,8 +102,8 @@ abstract class BaseInteger implements IValidator
         
         $result = [];
         
-        Arrays::addWhen($value < $min, $result, ValidationError::MIN());
-        Arrays::addWhen($max < $value, $result, ValidationError::MAX());
+        Arrays::addWhen($value < $min, $result, new ValidationError(ValidationError::MIN));
+        Arrays::addWhen($max < $value, $result, new ValidationError(ValidationError::MAX));
         
         return $result;
     }

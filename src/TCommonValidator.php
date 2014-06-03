@@ -14,7 +14,7 @@ trait TCommonValidator
     /**
      * 与えられた配列にバリデーションエラーの理由を設定します。
      * 
-     * @param Array $error_types                    エラータイプを保持する配列
+     * @param Array $error_types                   エラータイプを保持する配列
      * @param ValidationError $result [初期値=null] バリデーション検証結果
      */
     private function setError(array &$error_types, ValidationError $result = null)
@@ -46,7 +46,7 @@ trait TCommonValidator
                 return false;
             }
             
-            $this->setError($error_result, ValidationError::INVALID());
+            $this->setError($error_result, new ValidationError(ValidationError::INVALID));
         }
         
         return $error_result;

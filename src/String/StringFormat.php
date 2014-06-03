@@ -54,7 +54,7 @@ abstract class StringFormat extends BaseString
         };
         
         if ($this->isDenyContain($value, $get_pattern_text, $deny_pattern)) {
-            return ValidationError::FORMAT();
+            return new ValidationError(ValidationError::FORMAT);
         }
         
         $replaced = $this->getRemovedAllowChars($value, $get_pattern_text, $allow_pattern);
@@ -63,7 +63,7 @@ abstract class StringFormat extends BaseString
             $this->isNotRegexContain($replaced, $this->getRegexString()) ||
             $this->checkString($this->getRemovedHalfWidth($replaced)) === false
         ) {
-            return ValidationError::FORMAT();
+            return new ValidationError(ValidationError::FORMAT);
         }
         
         return null;

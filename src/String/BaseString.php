@@ -153,7 +153,7 @@ abstract class BaseString implements IValidator
             mb_check_encoding($value, Charset::UTF8) === false ||
             ($this->getAllowNumeric() === false && Text::getInstance()->isValid($value) === false)
         ) {
-            return ValidationError::FORMAT();
+            return new ValidationError(ValidationError::FORMAT);
         }
         
         return null;
@@ -176,8 +176,8 @@ abstract class BaseString implements IValidator
         
         $result = [];
         
-        Arrays::addWhen($length < $min, $result, ValidationError::MIN());
-        Arrays::addWhen($max < $length, $result, ValidationError::MAX());
+        Arrays::addWhen($length < $min, $result, new ValidationError(ValidationError::MIN));
+        Arrays::addWhen($max < $length, $result, new ValidationError(ValidationError::MAX));
         
         return $result;
     }
