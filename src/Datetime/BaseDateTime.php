@@ -171,7 +171,7 @@ abstract class BaseDateTime implements IValidator
     private function checkInvalidFormat($value)
     {
         if (String::isNotRegexMatched($value, "/$this->format_string/", 1)) {
-            return ValidationError::FORMAT();
+            return new ValidationError(ValidationError::FORMAT);
         }
         
         return null;
@@ -194,8 +194,8 @@ abstract class BaseDateTime implements IValidator
         
         $result = [];
         
-        Arrays::addWhen(is_null($max) || $max < $target, $result, ValidationError::MAX());
-        Arrays::addWhen(is_null($min) || $target < $min, $result, ValidationError::MIN());
+        Arrays::addWhen(is_null($max) || $max < $target, $result, new ValidationError(ValidationError::MAX));
+        Arrays::addWhen(is_null($min) || $target < $min, $result, new ValidationError(ValidationError::MIN));
         
         return $result;
     }
@@ -213,12 +213,13 @@ abstract class BaseDateTime implements IValidator
         return is_null($options->$method_name()) ? $this->$method_name() :
             $this->getDateTimeNumber($options->$method_name(), true);
     }
-    
+
     /**
      * 日時表記の文字列を数値に変換したものを取得します。
-     * 
-     * @param String $datetime 数値に変換する日時表記の文字列
-     * 
+     *
+     * @param String $datetime                      数値に変換する日時表記の文字列
+     * @param Boolean $is_number_cast [初期値=false] 数値に変換するかどうか
+     *
      * @return String|null 入力値が適切な値の場合は日時表記から変換した数値文字列。不正な場合は null。
      */
     private function getDateTimeNumber($datetime, $is_number_cast = false)

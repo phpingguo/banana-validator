@@ -35,7 +35,7 @@ final class MailAddress extends BaseString
     private function checkRfcMailViolation($mail_address)
     {
         if (false === ($at_index = strrpos($mail_address, '@'))) {
-            return ValidationError::FORMAT();
+            return new ValidationError(ValidationError::FORMAT);
         }
         
         // ローカル部の先頭または最後に「.」がある、または、二つ以上の連続した「.」が使われている、
