@@ -1,7 +1,7 @@
 <?php
-namespace Phpingguo\BananaValidator;
+namespace Phpeel\BananaValidator;
 
-use Phpingguo\ApricotLib\Common\String as CString;
+use Phpeel\ApricotLib\Common\String as CString;
 
 /**
  * バリデーションライブラリを統括管理するクラスです。
@@ -50,6 +50,6 @@ final class ValidatorSupervisor
      */
     public static function getEnumFullName($enum_name)
     {
-        return CString::concat("Phpingguo\\BananaValidator\\Enums\\", $enum_name);
+        return CString::concat("Phpeel\\BananaValidator\\Enums\\", $enum_name);
     }
 }
