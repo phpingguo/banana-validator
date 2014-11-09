@@ -1,5 +1,5 @@
 <?php
-namespace Phpingguo\BananaValidator;
+namespace Phpeel\BananaValidator;
 
 /**
  * フレームワークでバリデーションエラー時にスローされる例外を表すクラスです。
