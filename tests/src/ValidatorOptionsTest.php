@@ -1,7 +1,7 @@
 <?php
-namespace Phpingguo\BananaValidator\Tests;
+namespace Phpeel\BananaValidator\Tests;
 
-use Phpingguo\BananaValidator\Options;
+use Phpeel\BananaValidator\Options;
 
 class ValidatorOptionsTest extends \PHPUnit_Framework_TestCase
 {
