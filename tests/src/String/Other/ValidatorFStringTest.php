@@ -1,10 +1,10 @@
 <?php
-namespace Phpingguo\BananaValidator\Tests\String\Latin;
+namespace Phpeel\BananaValidator\Tests\String\Latin;
 
-use Phpingguo\BananaValidator\Enums\ValidationError;
-use Phpingguo\BananaValidator\Options;
-use Phpingguo\BananaValidator\String\Other\FullSizeString;
-use Phpingguo\BananaValidator\ValidationErrorException;
+use Phpeel\BananaValidator\Enums\ValidationError;
+use Phpeel\BananaValidator\Options;
+use Phpeel\BananaValidator\String\Other\FullSizeString;
+use Phpeel\BananaValidator\ValidationErrorException;
 
 class ValidatorFStringTest extends \PHPUnit_Framework_TestCase
 {

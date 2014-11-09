@@ -1,10 +1,10 @@
 <?php
-namespace Phpingguo\BananaValidator\Tests\String\Latin;
+namespace Phpeel\BananaValidator\Tests\String\Latin;
 
-use Phpingguo\BananaValidator\Enums\ValidationError;
-use Phpingguo\BananaValidator\Options;
-use Phpingguo\BananaValidator\String\Latin\Alphabet;
-use Phpingguo\BananaValidator\ValidationErrorException;
+use Phpeel\BananaValidator\Enums\ValidationError;
+use Phpeel\BananaValidator\Options;
+use Phpeel\BananaValidator\String\Latin\Alphabet;
+use Phpeel\BananaValidator\ValidationErrorException;
 
 class ValidatorAlphabetTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,10 +1,10 @@
 <?php
-namespace Phpingguo\BananaValidator\Tests\DateTime;
+namespace Phpeel\BananaValidator\Tests\DateTime;
 
-use Phpingguo\BananaValidator\DateTime\DateTime;
-use Phpingguo\BananaValidator\Enums\ValidationError;
-use Phpingguo\BananaValidator\Options;
-use Phpingguo\BananaValidator\ValidationErrorException;
+use Phpeel\BananaValidator\DateTime\DateTime;
+use Phpeel\BananaValidator\Enums\ValidationError;
+use Phpeel\BananaValidator\Options;
+use Phpeel\BananaValidator\ValidationErrorException;
 
 class ValidatorDateTimeTest extends \PHPUnit_Framework_TestCase
 {

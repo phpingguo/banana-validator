@@ -1,10 +1,10 @@
 <?php
-namespace Phpingguo\BananaValidator\Tests\String\Kana;
+namespace Phpeel\BananaValidator\Tests\String\Kana;
 
-use Phpingguo\BananaValidator\Enums\ValidationError;
-use Phpingguo\BananaValidator\Options;
-use Phpingguo\BananaValidator\String\Kana\FullSizeKana;
-use Phpingguo\BananaValidator\ValidationErrorException;
+use Phpeel\BananaValidator\Enums\ValidationError;
+use Phpeel\BananaValidator\Options;
+use Phpeel\BananaValidator\String\Kana\FullSizeKana;
+use Phpeel\BananaValidator\ValidationErrorException;
 
 class ValidatorFSKanaTest extends \PHPUnit_Framework_TestCase
 {
