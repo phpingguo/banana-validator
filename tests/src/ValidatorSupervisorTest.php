@@ -1,15 +1,15 @@
 <?php
-namespace Phpingguo\BananaValidator\Tests;
+namespace Phpeel\BananaValidator\Tests;
 
-use Phpingguo\BananaValidator\Enums\ValidationError;
-use Phpingguo\BananaValidator\Enums\Validator;
-use Phpingguo\BananaValidator\ValidatorSupervisor;
+use Phpeel\BananaValidator\Enums\ValidationError;
+use Phpeel\BananaValidator\Enums\Validator;
+use Phpeel\BananaValidator\ValidatorSupervisor;
 
 class ValidatorSupervisorTest extends \PHPUnit_Framework_TestCase
 {
     public function providerGetEnumFullName()
     {
-        $base_namespace = "Phpingguo\\BananaValidator\\Enums\\";
+        $base_namespace = "Phpeel\\BananaValidator\\Enums\\";
         
         return [
             [ ValidatorSupervisor::ENUM_VALIDATION_ERROR, ValidationError::INVALID, "{$base_namespace}ValidationError" ],
