@@ -1,5 +1,5 @@
 <?php
-namespace Phpingguo\BananaValidator;
+namespace Phpeel\BananaValidator;
 
 /**
  * バリデーション処理を行うための共通メソッドを定義するインターフェイスです。

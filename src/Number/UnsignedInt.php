@@ -1,5 +1,5 @@
 <?php
-namespace Phpingguo\BananaValidator\Number;
+namespace Phpeel\BananaValidator\Number;
 
 /**
  * 符号なし整数型の値を検証するクラスです。

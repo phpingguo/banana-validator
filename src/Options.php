@@ -1,7 +1,7 @@
 <?php
-namespace Phpingguo\BananaValidator;
+namespace Phpeel\BananaValidator;
 
-use Phpingguo\CitronDI\AuraDIWrapper;
+use Phpeel\CitronDI\AuraDIWrapper;
 
 /**
  * 検証に使用するオプション設定を保持するクラスです。

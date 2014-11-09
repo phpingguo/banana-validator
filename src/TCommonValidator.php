@@ -1,8 +1,8 @@
 <?php
-namespace Phpingguo\BananaValidator;
+namespace Phpeel\BananaValidator;
 
-use Phpingguo\ApricotLib\Common\Arrays;
-use Phpingguo\BananaValidator\Enums\ValidationError;
+use Phpeel\ApricotLib\Common\Arrays;
+use Phpeel\BananaValidator\Enums\ValidationError;
 
 /**
  * 検証機能の共通処理を提供するトレイトです。

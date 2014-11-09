@@ -1,10 +1,10 @@
 <?php
-namespace Phpingguo\BananaValidator\Tests\Number;
+namespace Phpeel\BananaValidator\Tests\Number;
 
-use Phpingguo\BananaValidator\Enums\ValidationError;
-use Phpingguo\BananaValidator\Number\UnsignedInt;
-use Phpingguo\BananaValidator\Options;
-use Phpingguo\BananaValidator\ValidationErrorException;
+use Phpeel\BananaValidator\Enums\ValidationError;
+use Phpeel\BananaValidator\Number\UnsignedInt;
+use Phpeel\BananaValidator\Options;
+use Phpeel\BananaValidator\ValidationErrorException;
 
 class ValidatorUIntTest extends \PHPUnit_Framework_TestCase
 {

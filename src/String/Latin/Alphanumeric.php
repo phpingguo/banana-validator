@@ -1,7 +1,7 @@
 <?php
-namespace Phpingguo\BananaValidator\String\Latin;
+namespace Phpeel\BananaValidator\String\Latin;
 
-use Phpingguo\BananaValidator\String\StringFormat;
+use Phpeel\BananaValidator\String\StringFormat;
 
 /**
  * ラテンアルファベットとアラビア数字を検証するクラスです。

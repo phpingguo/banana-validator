@@ -1,15 +1,15 @@
 <?php
-namespace Phpingguo\BananaValidator\String;
+namespace Phpeel\BananaValidator\String;
 
-use Phpingguo\ApricotLib\Enums\Charset;
-use Phpingguo\ApricotLib\Common\Arrays;
-use Phpingguo\ApricotLib\Common\String as CString;
-use Phpingguo\ApricotLib\Type\String\Text;
-use Phpingguo\BananaValidator\Enums\ValidationError;
-use Phpingguo\BananaValidator\IValidator;
-use Phpingguo\BananaValidator\Options;
-use Phpingguo\BananaValidator\TCommonValidator;
-use Phpingguo\BananaValidator\ValidationErrorException;
+use Phpeel\ApricotLib\Enums\Charset;
+use Phpeel\ApricotLib\Common\Arrays;
+use Phpeel\ApricotLib\Common\String as CString;
+use Phpeel\ApricotLib\Type\String\Text;
+use Phpeel\BananaValidator\Enums\ValidationError;
+use Phpeel\BananaValidator\IValidator;
+use Phpeel\BananaValidator\Options;
+use Phpeel\BananaValidator\TCommonValidator;
+use Phpeel\BananaValidator\ValidationErrorException;
 
 /**
  * 文字列の検証を行うクラスの基本機能を提供する抽象クラスです。
@@ -34,7 +34,7 @@ abstract class BaseString implements IValidator
     // ---------------------------------------------------------------------------------------------
     /**
      * @final [オーバーライド禁止]
-     * @see \Phpingguo\Validator\IValidator::validate()
+     * @see \Phpeel\Validator\IValidator::validate()
      */
     final public function validate(&$value, Options $options)
     {

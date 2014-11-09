@@ -1,7 +1,7 @@
 <?php
-namespace Phpingguo\BananaValidator\String\Other;
+namespace Phpeel\BananaValidator\String\Other;
 
-use Phpingguo\BananaValidator\String\StringFormat;
+use Phpeel\BananaValidator\String\StringFormat;
 
 /**
  * 全角文字を検証するクラスです。
