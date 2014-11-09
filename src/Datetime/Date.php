@@ -1,5 +1,5 @@
 <?php
-namespace Phpingguo\BananaValidator\DateTime;
+namespace Phpeel\BananaValidator\DateTime;
 
 /**
  * 日付型の値を検証するクラスです。

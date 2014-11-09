@@ -1,13 +1,13 @@
 <?php
-namespace Phpingguo\BananaValidator\DateTime;
+namespace Phpeel\BananaValidator\DateTime;
 
-use Phpingguo\ApricotLib\Common\Arrays;
-use Phpingguo\ApricotLib\Common\String;
-use Phpingguo\BananaValidator\Enums\ValidationError;
-use Phpingguo\BananaValidator\IValidator;
-use Phpingguo\BananaValidator\Options;
-use Phpingguo\BananaValidator\TCommonValidator;
-use Phpingguo\BananaValidator\ValidationErrorException;
+use Phpeel\ApricotLib\Common\Arrays;
+use Phpeel\ApricotLib\Common\String;
+use Phpeel\BananaValidator\Enums\ValidationError;
+use Phpeel\BananaValidator\IValidator;
+use Phpeel\BananaValidator\Options;
+use Phpeel\BananaValidator\TCommonValidator;
+use Phpeel\BananaValidator\ValidationErrorException;
 
 /**
  * 日時型の値を検証するクラスの基本機能を提供する抽象クラスです。
@@ -48,7 +48,7 @@ abstract class BaseDateTime implements IValidator
     // ---------------------------------------------------------------------------------------------
     /**
      * @final [オーバーライド禁止]
-     * @see \Phpingguo\Validator\IValidator::validate()
+     * @see \Phpeel\Validator\IValidator::validate()
      */
     final public function validate(&$value, Options $options)
     {

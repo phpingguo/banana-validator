@@ -1,9 +1,9 @@
 <?php
-namespace Phpingguo\BananaValidator\String;
+namespace Phpeel\BananaValidator\String;
 
-use Phpingguo\ApricotLib\Common\String;
-use Phpingguo\BananaValidator\Enums\ValidationError;
-use Phpingguo\BananaValidator\Options;
+use Phpeel\ApricotLib\Common\String;
+use Phpeel\BananaValidator\Enums\ValidationError;
+use Phpeel\BananaValidator\Options;
 
 /**
  * 文字列の入力形式を検証する機能を提供する抽象クラスです。
@@ -37,7 +37,7 @@ abstract class StringFormat extends BaseString
     // ---------------------------------------------------------------------------------------------
     /**
      * @final [オーバーライド禁止]
-     * @see \Phpingguo\Validator\BaseString::checkInvalidFormat();
+     * @see \Phpeel\Validator\BaseString::checkInvalidFormat();
      */
     final protected function checkInvalidFormat($value, Options $options)
     {

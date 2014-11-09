@@ -1,9 +1,9 @@
 <?php
-namespace Phpingguo\BananaValidator\String\Other;
+namespace Phpeel\BananaValidator\String\Other;
 
-use Phpingguo\BananaValidator\Enums\ValidationError;
-use Phpingguo\BananaValidator\Options;
-use Phpingguo\BananaValidator\String\BaseString;
+use Phpeel\BananaValidator\Enums\ValidationError;
+use Phpeel\BananaValidator\Options;
+use Phpeel\BananaValidator\String\BaseString;
 
 /**
  * RFC準拠のメールアドレスかどうかを検証するクラスです。

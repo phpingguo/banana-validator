@@ -1,7 +1,7 @@
 <?php
-namespace Phpingguo\BananaValidator\String\Kana;
+namespace Phpeel\BananaValidator\String\Kana;
 
-use Phpingguo\BananaValidator\String\StringFormat;
+use Phpeel\BananaValidator\String\StringFormat;
 
 /**
  * 全角カタカナを検証するクラスです。

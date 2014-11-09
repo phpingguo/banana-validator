@@ -1,13 +1,13 @@
 <?php
-namespace Phpingguo\BananaValidator\Number;
+namespace Phpeel\BananaValidator\Number;
 
-use Phpingguo\ApricotLib\Common\Arrays;
-use Phpingguo\ApricotLib\Common\String;
-use Phpingguo\BananaValidator\Enums\ValidationError;
-use Phpingguo\BananaValidator\IValidator;
-use Phpingguo\BananaValidator\Options;
-use Phpingguo\BananaValidator\TCommonValidator;
-use Phpingguo\BananaValidator\ValidationErrorException;
+use Phpeel\ApricotLib\Common\Arrays;
+use Phpeel\ApricotLib\Common\String;
+use Phpeel\BananaValidator\Enums\ValidationError;
+use Phpeel\BananaValidator\IValidator;
+use Phpeel\BananaValidator\Options;
+use Phpeel\BananaValidator\TCommonValidator;
+use Phpeel\BananaValidator\ValidationErrorException;
 
 /**
  * 整数型の値を検証するクラスの基本機能を提供する抽象クラスです。
@@ -27,7 +27,7 @@ abstract class BaseInteger implements IValidator
     // ---------------------------------------------------------------------------------------------
     /**
      * @final [オーバーライド禁止]
-     * @see \Phpingguo\Validator\IValidator::validate()
+     * @see \Phpeel\Validator\IValidator::validate()
      */
     final public function validate(&$value, Options $options)
     {
@@ -76,8 +76,8 @@ abstract class BaseInteger implements IValidator
      */
     private function doExclusiveErrorCheck($value)
     {
-        /** @var \Phpingguo\ApricotLib\Type\Int\BaseInteger $called */
-        $called = 'Phpingguo\\ApricotLib\\Type\\Int\\' . String::removeNamespace(get_called_class());
+        /** @var \Phpeel\ApricotLib\Type\Int\BaseInteger $called */
+        $called = 'Phpeel\\ApricotLib\\Type\\Int\\' . String::removeNamespace(get_called_class());
         
         if ($called::getInstance()->isValue($value) === false) {
             return new ValidationError(ValidationError::FORMAT);

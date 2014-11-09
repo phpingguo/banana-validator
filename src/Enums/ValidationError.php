@@ -1,7 +1,7 @@
 <?php
-namespace Phpingguo\BananaValidator\Enums;
+namespace Phpeel\BananaValidator\Enums;
 
-use Phpingguo\ApricotLib\Type\Enum\Enum;
+use Phpeel\ApricotLib\Type\Enum\Enum;
 
 /**
  * バリデーションのエラー理由を示します。
